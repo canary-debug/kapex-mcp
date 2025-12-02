@@ -1,0 +1,96 @@
+---
+# 创建 Pod
+apiVersion: "apps/v1"
+kind: Deployment
+metadata:
+  name: apex-k8s-mcp
+  namespace: apex-k8s-mcp
+  labels:
+    mcp: apex
+spec:
+  # 根据公司业务调整 pod 数量
+  replicas: 1
+  selector:
+    matchLabels:
+      mcp: apex
+  # 用于将现有Pod替换为新Pod的部署策略
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  template:
+    metadata:
+      name: apex
+      labels:
+        mcp: apex
+    spec:
+      containers:
+      - name: apex
+        image: registry.cn-hangzhou.aliyuncs.com/images-wzh/apex_k8s_mcp:v1
+        imagePullPolicy: IfNotPresent
+        ports:
+          - containerPort: 8000
+        volumeMounts:
+        - name: mcp-log
+          mountPath: /app_log
+        # 就绪探针
+        readinessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 150
+          periodSeconds: 5
+          failureThreshold: 5
+        # 存活探针
+        livenessProbe:
+          tcpSocket:
+            port: 8000
+          initialDelaySeconds: 150
+          periodSeconds: 10
+          failureThreshold: 5
+      # 创建一个卷
+      volumes:
+        - name: mcp-log
+          # emptyDir是一个空目录，用于临时存储数据。{}表示使用默认配置
+          # 生产环境仔细考虑日志是否需要持久化
+          emptyDir: {}
+---
+# 创建 Service Type ClusterIP
+apiVersion: "v1"
+kind: Service
+metadata:
+  name: apex-k8s-mcp
+  namespace: apex-k8s-mcp
+  labels:
+    mcp: apex
+spec:
+  selector:
+    mcp: apex
+  type: ClusterIP
+  ports:
+  - port: 8000
+    targetPort: 8000
+---
+# 创建路由
+apiVersion: "networking.k8s.io/v1"
+kind: Ingress
+metadata:
+  name: apex-k8s-mcp
+  namespace: apex-k8s-mcp
+  labels:
+    mcp: apex
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: "/"
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: mcp.k8s.com.cn
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: apex-k8s-mcp
+            port:
+              number: 8000
+---
