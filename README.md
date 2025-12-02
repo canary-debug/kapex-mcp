@@ -191,22 +191,23 @@ INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 
 - 所需的`key`需要用自己的。
 
-[![Uploading image-20250821095354947.png…]()](https://github.com/canary-debug/kapex-mcp/blob/main/images/image-20250821094944957.png)
+
 
 
 ![image-20250821095450051](https://github.com/canary-debug/kapex-mcp/blob/main/images/image-20250821094944957.png)
+![image-20250821095621018](https://github.com/canary-debug/kapex-mcp/blob/main/images/image-20250821095354947.png)
 
-![image-20250821095621018](W:\images\image-20250821095621018.png)
+![image-20250821095621018](https://github.com/canary-debug/kapex-mcp/blob/main/images/image-20250821095450051.png)
 
 ### 3.2、API调用
 
 - 问：`获取node节点信息`
 
-![image-20250821094944957](W:\images\image-20250821094944957.png)
+![image-20250821094944957](https://github.com/canary-debug/kapex-mcp/blob/main/images/image-20250821095621018.png)
 
 - 问：`在default命名空间中创建一个deployment，名字为wzh，image使用默认的，对外暴露80端口`
 
-![image-20250821100003397](W:\images\image-20250821100003397.png)
+![image-20250821100003397](https://github.com/canary-debug/kapex-mcp/blob/main/images/image-20250821100003397.png)
 
 ```bash
 # 通过集群任意控制平面查看是否创建资源
