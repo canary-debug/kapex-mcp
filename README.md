@@ -191,7 +191,7 @@ INFO:     Uvicorn running on http://0.0.0.0:8000 (Press CTRL+C to quit)
 
 - 所需的`key`需要用自己的。
 
-![Uploading image-20250821095354947.png…]()
+[![Uploading image-20250821095354947.png…]()](https://github.com/canary-debug/kapex-mcp/blob/main/images/image-20250821094944957.png)
 
 
 ![image-20250821095450051](W:\images\image-20250821095450051.png)
